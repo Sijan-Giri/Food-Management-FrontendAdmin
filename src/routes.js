@@ -2,10 +2,6 @@ import React from "react";
 
 // Admin Imports
 import MainDashboard from "views/admin/default";
-import NFTMarketplace from "views/admin/marketplace";
-import Profile from "views/admin/profile";
-import DataTables from "views/admin/tables";
-
 // Auth Imports
 
 // Icon Imports
@@ -15,36 +11,39 @@ import {
   MdBarChart,
   MdPerson,
 } from "react-icons/md";
+import Orders from "views/admin/Orders";
+import Users from "views/admin/users";
+import Reviews from "views/admin/reviews";
 
 const routes = [
   {
-    name: "Main Dashboard",
+    name: "Dashboard",
     layout: "/admin",
     path: "default",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
   {
-    name: "NFT Marketplace",
+    name: "Orders",
     layout: "/admin",
-    path: "nft-marketplace",
+    path: "orders",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    component: <NFTMarketplace />,
+    component: <Orders />,
     secondary: true,
   },
   {
-    name: "Data Tables",
+    name: "Users",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
-    path: "data-tables",
-    component: <DataTables />,
+    path: "users",
+    component: <Users />,
   },
   {
-    name: "Profile",
+    name: "Reviews",
     layout: "/admin",
-    path: "profile",
+    path: "reviews",
     icon: <MdPerson className="h-6 w-6" />,
-    component: <Profile />,
+    component: <Reviews />,
   }
 ];
 export default routes;

@@ -1,6 +1,6 @@
 
 
-const ProfileOverview = () => {
+const Users = () => {
   return (
       <>
       <h1>profile section</h1>
@@ -8,4 +8,4 @@ const ProfileOverview = () => {
   );
 };
 
-export default ProfileOverview;
+export default Users;

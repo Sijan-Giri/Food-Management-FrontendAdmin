@@ -1,6 +1,6 @@
 
 
-const Tables = () => {
+const Reviews = () => {
   return (
     <>
     <h1>Product section soon...</h1>
@@ -8,4 +8,4 @@ const Tables = () => {
   );
 };
 
-export default Tables;
+export default Reviews;
