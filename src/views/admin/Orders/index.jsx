@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchOrder } from "store/orderSlice";
 
 
 const Orders = () => {
+
+  const dispatch = useDispatch();
+  const [selectItem , setSelectItem] = useState("all");
+  const {data:orders} = useSelector((state) => state.order);
+
+  const filteredItems = orders.filter((order) => selectItem == "all" || order.orderStatus == selectItem )
+
+  useEffect(() => {
+    dispatch(fetchOrder())
+  },[])
+
   return (
 <>
   <div className="antialiased font-sans bg-gray-200 pt-20">
-    <div className="container mx-auto px-4 sm:px-8 max-w-4xl ml-64"> {/* Adjust width and left margin */}
+    <div className="container mx-auto px-4 sm:px-8 max-w-4xl ml-64"> 
       <div className="py-8">
         <div>
           <h2 className="text-2xl font-semibold leading-tight">Orders</h2>
@@ -20,7 +34,7 @@ const Orders = () => {
               </div>
             </div>
             <div className="relative">
-              <select className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+              <select onChange={(e) => setSelectItem(e.target.value)} className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                 <option value="all">All</option>
                 <option value="pending">Pending</option>
                 <option value="ontheway">OntheWay</option>
@@ -78,33 +92,40 @@ const Orders = () => {
               </thead>
               <tbody>
                 <>
-                  <tr>
+                  {
+                    filteredItems.length > 0 && filteredItems?.map((order) => {
+                      return (
+                        <>
+                          <tr>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
-                        <Link>
                           <div>
-                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>this is the user id place</p>
+                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{order._id}</p>
                           </div>
-                        </Link>
+                       
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">orderAmt</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap"></p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">orderStatus</span>
+                        <span className="relative">{order.orderStatus}</span>
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">date</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{new Date(order.createdAt).toLocaleDateString()}</p>
                     </td>
                   </tr>
+                        </>
+                      )
+                    })
+                  }
                 </>
               </tbody>
             </table>
