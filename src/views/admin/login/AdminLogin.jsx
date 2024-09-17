@@ -8,7 +8,7 @@ const AdminLogin = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {status} = useSelector((state) => state.auth)
+    const {status,token} = useSelector((state) => state.auth)
 
     const [data,setData] = useState({
         email : "",
@@ -30,7 +30,8 @@ const AdminLogin = () => {
 
     useEffect(() => {
         if(status == STATUSES.SUCCESS) {
-            navigate("/admin/default")
+            navigate("/admin/default");
+            localStorage.setItem("token",token)
         }
     },[dispatch,status])
 

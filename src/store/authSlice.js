@@ -49,3 +49,24 @@ export  function adminLogin(data) {
         }
     }
 }
+
+export function fetchProfile() {
+    return async function fetchProfileThunk(dispatch) {
+        dispatch(setStatus(STATUSES.LOADING));
+        try {
+            const response = await axios.get("http://localhost:2000/getProfile",{
+                headers : {
+                    Authorization : localStorage.getItem("token")
+                }
+            });
+            if(response.status === 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
+    }
+}
