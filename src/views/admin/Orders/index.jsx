@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { fetchOrder } from "store/orderSlice";
 
 
@@ -8,9 +7,15 @@ const Orders = () => {
 
   const dispatch = useDispatch();
   const [selectItem , setSelectItem] = useState("all");
+  const [searchItem , setSearchItem] = useState("");
+  const [date , setDate] = useState("");
   const {data:orders} = useSelector((state) => state.order);
+  
 
   const filteredItems = orders.filter((order) => selectItem == "all" || order.orderStatus == selectItem )
+  .filter((order) => order?._id.toLowerCase().includes(searchItem.toLowerCase()) || order?.paymentDetails.method.toLowerCase().includes(searchItem.toLowerCase()))
+  .filter((order) => date == "" || new Date(order.createdAt).toLocaleDateString() == new Date(date).toLocaleDateString())
+  
 
   useEffect(() => {
     dispatch(fetchOrder())
@@ -56,12 +61,16 @@ const Orders = () => {
               </svg>
             </span>
             <input
+            value={searchItem}
+            onChange={(e) => setSearchItem(e.target.value)}
               placeholder="Search"
               className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
             />
           </div>
           <div className="block relative">
             <input
+            onChange={(e) => setDate(e.target.value)}
+            value={date}
               placeholder="Search"
               type="date"
               className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
@@ -110,7 +119,7 @@ const Orders = () => {
                       <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status} ({order.paymentDetails.method})</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
