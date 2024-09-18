@@ -1,38 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { STATUSES } from "./authSlice";
 import axios from "axios";
+import { STATUSES } from "./authSlice";
 
-const orderSlice = createSlice({
-    name : 'order',
+import { createSlice } from "@reduxjs/toolkit";
+
+const userSlice = createSlice({
+    name : "user",
     initialState : {
-        data : [],
-        status : null
+        status : null,
+        user : []
     },
     reducers : {
-        setData(state,action) {
-            state.data = action.payload
-        },
         setStatus(state,action) {
             state.status = action.payload
+        },
+        setUser(state,action) {
+            state.user = action.payload
         }
     }
 })
 
-export const {setData , setStatus} = orderSlice.actions;
-export default orderSlice.reducer;
+export const {setStatus , setUser} = userSlice.actions;
+export default userSlice.reducer;
 
-export function fetchOrder() {
-    return async function fetchOrderThunk(dispatch) {
+export function fetchUser() {
+    return async function fetchUserThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get("http://localhost:2000/getOrders",{
+            const response = await axios.get("http://localhost:2000/getUser",{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
             });
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
-                dispatch(setData(response.data.data))
+                dispatch(setUser(response.data.data))
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))

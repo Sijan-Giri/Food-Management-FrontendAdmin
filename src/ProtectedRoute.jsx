@@ -8,6 +8,11 @@ const ProtectedRoute = ({children}) => {
     useEffect(() => {
         dispatch(fetchProfile())
     },[])
+    if(!data || !data[0]) {
+      return (
+        <>No data Found.</>
+      )
+    }
   if(data[0].userRole == "admin") {
     return (
         <>{children}</>
