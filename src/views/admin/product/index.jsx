@@ -1,29 +1,27 @@
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "store/userSlice";
+import { fetchProduct } from "store/productSlice";
 
-const User = () => {
+
+const Product = () => {
 
   const dispatch = useDispatch();
+  const [selectItem , setSelectItem] = useState("all");
   const [searchItem , setSearchItem] = useState("");
   const [date , setDate] = useState("");
-  const {user} = useSelector((state) => state.user);
-  
-  const filteredUser = user.filter((users) => users?.email?.toLowerCase().includes(searchItem.toLowerCase()) || String(users?.phoneNum).includes(searchItem))
-  
+  const {data:orders} = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(fetchUser())
+    dispatch(fetchProduct())
   },[])
 
   return (
-<>
+    <>
   <div className="antialiased font-sans bg-gray-200 pt-20">
     <div className="container mx-auto px-4 sm:px-8 max-w-4xl ml-64"> 
       <div className="py-8">
         <div>
-          <h2 className="text-2xl font-semibold leading-tight">Users</h2>
+          <h2 className="text-2xl font-semibold leading-tight">Product</h2>
         </div>
         <div className="my-2 flex sm:flex-row flex-col">
           <div className="flex flex-row mb-1 sm:mb-0">
@@ -35,7 +33,7 @@ const User = () => {
               </div>
             </div>
             <div className="relative">
-              <select className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+              <select onChange={(e) => setSelectItem(e.target.value)} className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                 <option value="all">All</option>
                 <option value="pending">Pending</option>
                 <option value="ontheway">OntheWay</option>
@@ -79,53 +77,59 @@ const User = () => {
               <thead>
                 <tr>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                     Id
+                    User Id
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Email
+                    total Amt
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    PhoneNumber
+                    payment Status
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    UserName
+                    order Status
+                  </th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Ordered At
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <>
+                {/* <>
                   {
-                    filteredUser.length > 0 && filteredUser?.map((users) => {
-                      return (
+                    // filteredItems.length > 0 && filteredItems?.map((order) => {
+                      // return (
                         <>
                           <tr>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
                           <div>
-                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{users._id}</p>
+                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{order._id}</p>
                           </div>
                        
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{users.email} {users.userEmail}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{users.phoneNum}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status} ({order.paymentDetails.method})</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">{users.username}</span>
+                        <span className="relative">{order.orderStatus}</span>
                       </span>
+                    </td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <p className="text-gray-900 whitespace-no-wrap">{new Date(order.createdAt).toLocaleDateString()}</p>
                     </td>
                   </tr>
                         </>
                       )
                     })
                   }
-                </>
+                </> */}
               </tbody>
             </table>
             <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
@@ -145,9 +149,7 @@ const User = () => {
     </div>
   </div>
 </>
-
   );
 };
 
-export default User;
-
+export default Product;

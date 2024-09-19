@@ -13,7 +13,7 @@ import {
 } from "react-icons/md";
 import Orders from "views/admin/Orders";
 import Users from "views/admin/users";
-import Reviews from "views/admin/reviews";
+import Product from "views/admin/product";
 
 const routes = [
   {
@@ -39,11 +39,11 @@ const routes = [
     component: <Users />,
   },
   {
-    name: "Reviews",
+    name: "Product",
     layout: "/admin",
-    path: "reviews",
+    path: "product",
     icon: <MdPerson className="h-6 w-6" />,
-    component: <Reviews />,
+    component: <Product />,
   }
 ];
 export default routes;
