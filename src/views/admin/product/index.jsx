@@ -9,7 +9,9 @@ const Product = () => {
   const [selectItem , setSelectItem] = useState("all");
   const [searchItem , setSearchItem] = useState("");
   const [date , setDate] = useState("");
-  const {data:orders} = useSelector((state) => state.order);
+  const {products} = useSelector((state) => state.product);
+
+  const filteredProduct = products.filter((product) => product.productName.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productPrice).toLowerCase().includes(searchItem.toLowerCase()) || product.productDescription.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productQuantity).toLowerCase().includes(searchItem.toLowerCase()))
 
   useEffect(() => {
     dispatch(fetchProduct())
@@ -77,59 +79,59 @@ const Product = () => {
               <thead>
                 <tr>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    User Id
+                    Product Id
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    total Amt
+                    Product Name
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    payment Status
+                    product price
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    order Status
+                    product description
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Ordered At
+                    product quantity
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {/* <>
+                 <>
                   {
-                    // filteredItems.length > 0 && filteredItems?.map((order) => {
-                      // return (
+                    filteredProduct.length > 0 && filteredProduct?.map((product) => {
+                      return (
                         <>
                           <tr>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
                           <div>
-                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{order._id}</p>
+                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{product._id}</p>
                           </div>
                        
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{product.productName}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status} ({order.paymentDetails.method})</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{product.productPrice}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">{order.orderStatus}</span>
+                        <span className="relative">{product.productDescription}</span>
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{product.productQuantity}</p>
                     </td>
                   </tr>
                         </>
                       )
                     })
                   }
-                </> */}
+                </> 
               </tbody>
             </table>
             <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">

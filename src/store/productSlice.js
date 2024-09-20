@@ -1,7 +1,7 @@
 import axios from "axios";
 import { STATUSES } from "./authSlice";
 
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice } from "@reduxjs/toolkit";
 
 const productSlice = createSlice({
     name : "product",
