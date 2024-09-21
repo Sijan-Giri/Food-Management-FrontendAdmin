@@ -1,6 +1,8 @@
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { deleteOrder } from "store/orderSlice";
 import { fetchOrder } from "store/orderSlice";
 
 
@@ -11,7 +13,6 @@ const Orders = () => {
   const [searchItem , setSearchItem] = useState("");
   const [date , setDate] = useState("");
   const {data:orders} = useSelector((state) => state.order);
-  
 
   const filteredItems = orders?.filter((order) => selectItem == "all" || order.orderStatus == selectItem )
   .filter((order) => order?._id.toLowerCase().includes(searchItem.toLowerCase()) || order?.paymentDetails.method.toLowerCase().includes(searchItem.toLowerCase()))
@@ -21,6 +22,10 @@ const Orders = () => {
   useEffect(() => {
     dispatch(fetchOrder())
   },[])
+
+   const handleDelete = async (id) => {
+    dispatch(deleteOrder(id))
+  }
 
   return (
 <>
@@ -98,6 +103,9 @@ const Orders = () => {
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Ordered At
                   </th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -131,6 +139,12 @@ const Orders = () => {
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <p className="text-gray-900 whitespace-no-wrap">{new Date(order?.createdAt).toLocaleDateString()}</p>
                     </td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <button onClick={() => handleDelete(order?._id)} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-200 ease-in-out">
+                          Delete
+                        </button>
+                      </td>
+
                   </tr>
                         </>
                       )
