@@ -10,7 +10,8 @@ const SingleOrders = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const {singleOrder} = useSelector((state) => state.order);
-    console.log(singleOrder)
+    const filteredOrder = [singleOrder]
+    console.log(filteredOrder)
 
     const handleCancel = async() => {
       try {
@@ -35,7 +36,7 @@ const SingleOrders = () => {
 
     const handleDelete = async () => {
       try {
-        const response = await axios.delete(`/deleteMyOrder/${id}`,{
+        const response = await axios.delete(`http://localhost:2000/deleteOrder/${id}`,{
           headers : {
             "Content-Type" : "application/json",
             Accept : "application/json",
@@ -43,7 +44,7 @@ const SingleOrders = () => {
          }
         });
         if(response.status === 200) {
-          navigate("/myOrders")
+          navigate("/admin/orders")
         }
       } catch (error) {
         console.log(error)
@@ -72,12 +73,12 @@ const SingleOrders = () => {
           </div>
           <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
             <div className="w-full flex flex-col justify-start items-start space-y-8">
-              <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">ordername</h3>
+              <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">{order[0]?.item[0]?.product}</h3>
               
             </div>
             <div className="flex justify-between space-x-8 items-start w-full">
               <p className="text-base dark:text-white xl:text-lg leading-6">Rs.amount </p>
-              <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">dfgs</p>
+              <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">{order[0]?.item[0]?.quantity}</p>
               <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">adfgasdf</p>
             </div>
           </div>
@@ -93,20 +94,20 @@ const SingleOrders = () => {
           <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
             <div className="flex justify-between w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Payment Method</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">sdfgh</p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{filteredOrder[0]?.paymentDetails?.method}</p>
             </div>
             <div className="flex justify-between w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Payment Status</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600"></p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{filteredOrder[0]?.paymentDetails?.status}</p>
             </div>
             <div className="flex justify-between items-center w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Order Status</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600"></p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{filteredOrder[0]?.orderStatus}</p>
             </div>
           </div>
           <div className="flex justify-between items-center w-full">
             <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
-            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600"></p>
+            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">{filteredOrder[0]?.totalAmount}</p>
           </div>
         </div>
         <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -144,13 +145,13 @@ const SingleOrders = () => {
           </div>
             )
           }
-          {/* {
+          {
             singleOrder?.orderStatus !== "cancelled" && (
               <div className="flex w-full justify-center items-center md:justify-start md:items-start">
             <button className="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-medium leading-4 text-gray-800" onClick={handleDelete}>Delete Order</button>
           </div>
             )
-          } */}
+          }
           
         </div>
       </div>

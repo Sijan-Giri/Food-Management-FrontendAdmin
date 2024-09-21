@@ -21,7 +21,9 @@ const orderSlice = createSlice({
         },
         removeOrder(state,action) {
             const index = state.orders.findIndex((order) => order._id === action.payload.orderId);
-            state.orders.splice(index,1) 
+            if(index !== 1) {
+                state.orders.splice(index,1)
+            } 
         }
     }
 })
@@ -86,7 +88,8 @@ export function deleteOrder(id) {
             });
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS))
-                dispatch(removeOrder({id}))
+                dispatch(removeOrder({orderId : id}))
+                dispatch(fetchOrder())
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))
