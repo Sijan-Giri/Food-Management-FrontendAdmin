@@ -13,7 +13,8 @@ const authSlice = createSlice({
     initialState : {
         data : [],
         status : null,
-        token : []
+        token : [],
+        profile : {}
      },
      reducers : {
         setData(state,action) {
@@ -24,11 +25,14 @@ const authSlice = createSlice({
         },
         setToken(state,action) {
             state.token = action.payload
+        },
+        setProfile(state,action ) {
+            state.profile = action.payload
         }
      }
 })
 
-export const {setData , setStatus , setToken} = authSlice.actions;
+export const {setData , setStatus , setToken , setProfile} = authSlice.actions;
 export default authSlice.reducer;
 
 export  function adminLogin(data) {
@@ -61,6 +65,7 @@ export function fetchProfile() {
             });
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
+                dispatch(setProfile(response.data.data))
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))

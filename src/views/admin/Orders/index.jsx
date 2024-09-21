@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { fetchOrder } from "store/orderSlice";
 
 
@@ -12,7 +13,7 @@ const Orders = () => {
   const {data:orders} = useSelector((state) => state.order);
   
 
-  const filteredItems = orders.filter((order) => selectItem == "all" || order.orderStatus == selectItem )
+  const filteredItems = orders?.filter((order) => selectItem == "all" || order.orderStatus == selectItem )
   .filter((order) => order?._id.toLowerCase().includes(searchItem.toLowerCase()) || order?.paymentDetails.method.toLowerCase().includes(searchItem.toLowerCase()))
   .filter((order) => date == "" || new Date(order.createdAt).toLocaleDateString() == new Date(date).toLocaleDateString())
   
@@ -102,33 +103,33 @@ const Orders = () => {
               <tbody>
                 <>
                   {
-                    filteredItems.length > 0 && filteredItems?.map((order) => {
+                    filteredItems?.length > 0 && filteredItems?.map((order) => {
                       return (
                         <>
                           <tr>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
-                          <div>
+                          <Link to={`/admin/orders/${order._id}`}>
                             <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{order._id}</p>
-                          </div>
+                          </Link>
                        
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order?.totalAmount}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{order.paymentDetails.status} ({order.paymentDetails.method})</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{order?.paymentDetails.status} ({order?.paymentDetails.method})</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">{order.orderStatus}</span>
+                        <span className="relative">{order?.orderStatus}</span>
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{new Date(order?.createdAt).toLocaleDateString()}</p>
                     </td>
                   </tr>
                         </>
