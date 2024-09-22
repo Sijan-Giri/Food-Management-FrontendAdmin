@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { fetchSingleOrder } from 'store/orderSlice';
 import { updateOrderStatus } from 'store/orderSlice';
+import { updatePaymentStatus } from 'store/orderSlice';
 
 const SingleOrders = () => {
 
@@ -13,10 +14,16 @@ const SingleOrders = () => {
     const {singleOrder} = useSelector((state) => state.order);
     const filteredOrder = [singleOrder]
     const [orderStatus , setOrderStatus] = useState(filteredOrder[0]?.orderStatus)
+    const [paymentStatus , setPaymentStatus] = useState(filteredOrder[0]?.paymentDetails?.status)
 
     const handleOrderStatus = (e) => {
       setOrderStatus(e.target.value);
       dispatch(updateOrderStatus(id,e.target.value))
+    }
+
+    const handlePaymentStatus = (e) => {
+      setPaymentStatus(e.target.value);
+      dispatch(updatePaymentStatus(id,e.target.value))
     }
 
     useEffect(() => {
@@ -136,6 +143,14 @@ const SingleOrders = () => {
               <option value="cancelled">cancelled</option>
               <option value="onTheWay">onTheWay</option>
               <option value="preparation">preparation</option>
+            </select>
+          </form>
+          <form class="max-w-sm mx-auto py-4">
+            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Payment Status</label>
+            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handlePaymentStatus}>
+              <option value={filteredOrder[0]?.paymentDetails?.status}>{filteredOrder[0]?.paymentDetails?.status}</option>
+              <option value="paid">paid</option>
+              <option value="unpaid">unpaid</option>
             </select>
           </form>
 
