@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { fetchSingleOrder } from 'store/orderSlice';
+import { updateOrderStatus } from 'store/orderSlice';
 
 const SingleOrders = () => {
 
@@ -11,23 +12,11 @@ const SingleOrders = () => {
     const navigate = useNavigate()
     const {singleOrder} = useSelector((state) => state.order);
     const filteredOrder = [singleOrder]
-    console.log(filteredOrder)
+    const [orderStatus , setOrderStatus] = useState(filteredOrder[0]?.orderStatus)
 
-    const handleCancel = async() => {
-      try {
-      const response = await axios.patch(`/cancelMyOrder/${id}`,{
-        headers : {
-          "Content-Type" : "application/json",
-          Accept : "application/json",
-          "Authorization" : `${localStorage.getItem("token")}`
-       }
-      });
-      if(response.status === 200) {
-        navigate("/myOrders")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    const handleOrderStatus = (e) => {
+      setOrderStatus(e.target.value);
+      dispatch(updateOrderStatus(id,e.target.value))
     }
 
     useEffect(() => {
@@ -138,10 +127,22 @@ const SingleOrders = () => {
               <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"></p>
             </div>
           </div>
+          
+          <form class="max-w-sm mx-auto py-8">
+            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Order Status</label>
+            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleOrderStatus}>
+              <option value={filteredOrder[0]?.orderStatus}>{filteredOrder[0]?.orderStatus}</option>
+              <option value="delivered">delivered</option>
+              <option value="cancelled">cancelled</option>
+              <option value="onTheWay">onTheWay</option>
+              <option value="preparation">preparation</option>
+            </select>
+          </form>
+
           {
             singleOrder?.orderStatus !== "cancelled" && (
               <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-            <button className="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-medium leading-4 text-gray-800" onClick={handleCancel} >Cancel Order</button>
+            <button className="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-medium leading-4 text-gray-800" >Cancel Order</button>
           </div>
             )
           }

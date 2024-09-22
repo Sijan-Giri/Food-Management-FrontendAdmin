@@ -7,7 +7,7 @@ const orderSlice = createSlice({
     initialState : {
         data : [],
         status : null,
-        singleOrder : []
+        singleOrder : [],
     },
     reducers : {
         setData(state,action) {
@@ -24,11 +24,17 @@ const orderSlice = createSlice({
             if(index !== 1) {
                 state.orders.splice(index,1)
             } 
+        },
+        updateOrder(state,action) {
+            const index = state.orders.findIndex((order) => order._id === action.payload.id);
+            if(index !== 1) {
+                state.orders[index] = action.payload.data
+            }
         }
     }
 })
 
-export const {setData , setStatus , setSingleOrder , removeOrder} = orderSlice.actions;
+export const {setData , setStatus , setSingleOrder , removeOrder , updateOrder} = orderSlice.actions;
 export default orderSlice.reducer;
 
 export function fetchOrder() {
@@ -97,5 +103,29 @@ export function deleteOrder(id) {
           } catch (error) {
             dispatch(setStatus(STATUSES.ERROR))
           }
+    }
+}
+
+export function updateOrderStatus(id,orderStatus) {
+    return async function updateOrderStatus(dispatch) {
+        try {
+            dispatch(setStatus(STATUSES.LOADING));
+            const response = await axios.patch(`http://localhost:2000/updateOrderStatus/${id}`,{orderStatus},{
+                headers : {
+                    "Content-Type" : "application/json",
+                Accept : "application/json",
+                "Authorization" : `${localStorage.getItem("token")}`
+                }
+            })
+            if(response.status === 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+                dispatch(updateOrder({id , data : response.data.data}))
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
     }
 }
