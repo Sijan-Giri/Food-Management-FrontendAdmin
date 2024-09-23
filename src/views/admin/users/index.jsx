@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteUser } from "store/userSlice";
 import { fetchUser } from "store/userSlice";
 
 const User = () => {
@@ -11,6 +12,10 @@ const User = () => {
   const {user} = useSelector((state) => state.user);
   
   const filteredUser = user.filter((users) => users?.email?.toLowerCase().includes(searchItem.toLowerCase()) || String(users?.phoneNum).includes(searchItem))
+
+  const handleDelete = (id) => {
+    dispatch(deleteUser(id))
+  }
   
 
   useEffect(() => {
@@ -90,6 +95,9 @@ const User = () => {
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     UserName
                   </th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -120,6 +128,11 @@ const User = () => {
                         <span className="relative">{users.username}</span>
                       </span>
                     </td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <button onClick={() => handleDelete(users?._id)} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-200 ease-in-out">
+                          Delete
+                        </button>
+                      </td>
                   </tr>
                         </>
                       )

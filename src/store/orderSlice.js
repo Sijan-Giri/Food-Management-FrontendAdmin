@@ -54,7 +54,7 @@ export function fetchOrder() {
             });
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
-                dispatch(setData(response.data.data))
+                dispatch(setData(response.data.data.reverse()))
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))
