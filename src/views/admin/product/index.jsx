@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { deleteProduct } from "store/productSlice";
 import { fetchProduct } from "store/productSlice";
 
@@ -113,10 +114,9 @@ const Product = () => {
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
-                          <div>
-                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{product._id}</p>
-                          </div>
-                       
+                          <Link to={`/admin/product/${product?._id}`}><div>
+                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{product?._id}</p>
+                          </div></Link>
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">

@@ -21,11 +21,17 @@ const productSlice = createSlice({
             if(index !== 1) {
                 state.products.splice(index,1)
             } 
+        },
+        updateProductStatus(state,action) {
+            const index = state.products.findIndex((product) => product._id === action.payload.id);
+            if(index !== 1) {
+                state.products[index] = action.payload.data
+            }
         }
     }
 })
 
-export const {setStatus , setProduct , removeProduct} = productSlice.actions;
+export const {setStatus , setProduct , removeProduct , updateProductStatus} = productSlice.actions;
 export default productSlice.reducer;
 
 export function fetchProduct() {
@@ -67,3 +73,25 @@ export function deleteProduct(id) {
         }
     }
 } 
+
+export function updateProduct(id,status) {
+    return async function updateProductThunk(dispatch) {
+        try {
+            dispatch(setStatus(STATUSES.LOADING));
+            const response = await axios.patch(`http://localhost:2000/updateProductStatus/${id}`,{status},{
+                headers : {
+                    Authorization : localStorage.getItem("token")
+                }
+            });
+            if(response.status === 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+                dispatch(updateProductStatus(status))
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
+    }
+}
