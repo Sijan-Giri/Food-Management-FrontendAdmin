@@ -103,7 +103,8 @@ const User = () => {
               <tbody>
                 <>
                   {
-                    filteredUser.length > 0 && filteredUser?.map((users) => {
+                    filteredUser?.length > 0 && filteredUser?.map((users) => {
+                      console.log(users)
                       return (
                         <>
                           <tr>
@@ -111,21 +112,21 @@ const User = () => {
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10"></div>
                           <div>
-                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{users._id}</p>
+                            <p className="text-gray-900 whitespace-no-wrap" style={{marginLeft:"-50px"}}>{users?._id}</p>
                           </div>
                        
                       </div>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{users.email} {users.userEmail}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{users?.email} {users?.userEmail}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{users.phoneNum}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{users?.userPhoneNum}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">{users.username}</span>
+                        <span className="relative">{users?.userName}</span>
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">

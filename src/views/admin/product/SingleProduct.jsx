@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateProduct } from 'store/productSlice';
 
-
 const SingleProduct = () => {
 
     const {id} = useParams();
@@ -11,14 +10,14 @@ const SingleProduct = () => {
     const {products} = useSelector((state) => state.product);
     const [select , setSelect] = useState('')
     
-    const handleSelect = (e) => {
-        setSelect(e.target.value)
+    const handleStatus = (e) => {
+        const newStatus = e.target.value;
+        setSelect(newStatus)
         dispatch(updateProduct(id,select))
     }
 
     const [filteredProduct] = products?.filter((product) => product._id == id)
 
-    
   return (
     <>
 <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -61,7 +60,7 @@ const SingleProduct = () => {
           </div>
           <form class="max-w-sm mx-auto py-8">
             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Product Status</label>
-            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleSelect}>
+            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleStatus}>
               <option value="available">available</option>
               <option value="unavailable">unavailable</option>
             </select>
