@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateProduct } from 'store/productSlice';
+import { fetchProduct } from 'store/productSlice';
+
 
 const SingleProduct = () => {
 
@@ -13,10 +15,15 @@ const SingleProduct = () => {
     const handleStatus = (e) => {
         const newStatus = e.target.value;
         setSelect(newStatus)
-        dispatch(updateProduct(id,select))
+        dispatch(updateProduct(id,newStatus))
     }
 
-    const [filteredProduct] = products?.filter((product) => product._id == id)
+    const [filteredProduct] = products?.filter((product) => product._id == id);
+    console.log(filteredProduct);
+
+    useEffect(() => {
+      dispatch(fetchProduct())
+    },[])
 
   return (
     <>

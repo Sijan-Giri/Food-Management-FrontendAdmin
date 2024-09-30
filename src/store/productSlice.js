@@ -78,8 +78,7 @@ export function updateProduct(id,status) {
     return async function updateProductThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            console.log("This is status",status)
-            const response = await axios.patch(`http://localhost:2000/updateProductStatus/${id}`,{status},{
+            const response = await axios.patch(`http://localhost:2000/updateProductStatus/${id}`,{productStatus : status},{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
