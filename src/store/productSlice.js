@@ -1,6 +1,5 @@
 import axios from "axios";
 import { STATUSES } from "./authSlice";
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const productSlice = createSlice({
@@ -27,11 +26,14 @@ const productSlice = createSlice({
             if(index !== 1) {
                 state.products[index] = action.payload.data
             }
+        },
+        addNewProduct(state,action) {
+            state.products.push(action.payload)
         }
     }
 })
 
-export const {setStatus , setProduct , removeProduct , updateProductStatus} = productSlice.actions;
+export const {setStatus , setProduct , removeProduct , updateProductStatus , addNewProduct} = productSlice.actions;
 export default productSlice.reducer;
 
 export function fetchProduct() {
@@ -41,7 +43,7 @@ export function fetchProduct() {
             const response = await axios.get("http://localhost:2000/createProduct");
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
-                dispatch(setProduct(response.data.data));
+                dispatch(setProduct(response.data.data.reverse()));
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))
@@ -86,6 +88,28 @@ export function updateProduct(id,status) {
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
                 dispatch(updateProductStatus({id , data : response.data.data}))
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
+    }
+}
+
+export function createProduct(data) {
+    return async function createProductThunk(dispatch) {
+        try {
+            dispatch(setStatus(STATUSES.LOADING))
+            const response = await axios.post("http://localhost:2000/createProduct",data,{
+                headers : {
+                    Authorization : localStorage.getItem('token')
+                }
+            });
+            if(response.status === 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+                dispatch(addNewProduct(response.data.data))
             }
             else {
                 dispatch(setStatus(STATUSES.ERROR))
