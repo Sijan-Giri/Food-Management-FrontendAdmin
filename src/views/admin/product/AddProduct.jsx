@@ -21,10 +21,10 @@ const AddProduct = () => {
     })
 
     const handleChange = (e) => {
-        const {name , value} = e.target;
+        const {name , type , value} = e.target;
         setData({
             ...data,
-            [name] : value
+            [name] : type === "file" ? e.target.files[0] : value
         })
     }
 

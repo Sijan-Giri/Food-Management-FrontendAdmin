@@ -104,7 +104,8 @@ export function createProduct(data) {
             dispatch(setStatus(STATUSES.LOADING))
             const response = await axios.post("http://localhost:2000/createProduct",data,{
                 headers : {
-                    Authorization : localStorage.getItem('token')
+                    Authorization : localStorage.getItem('token'),
+                    "Content-Type" : "multipart/form-data"
                 }
             });
             if(response.status === 200) {
