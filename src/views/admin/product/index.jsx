@@ -13,7 +13,7 @@ const Product = () => {
   const [date , setDate] = useState("");
   const {products} = useSelector((state) => state.product);
 
-  const filteredProduct = products.filter((product) => product.productName.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productPrice).toLowerCase().includes(searchItem.toLowerCase()) || product.productDescription.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productQuantity).toLowerCase().includes(searchItem.toLowerCase()))
+  const filteredProduct = products.filter((product) => product.productName.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productPrice).toLowerCase().includes(searchItem.toLowerCase()) || product.productDescription.toLowerCase().includes(searchItem.toLowerCase()) || String(product.productQuantity).toLowerCase().includes(searchItem.toLowerCase()) || product._id.toLowerCase().includes(searchItem.toLowerCase()))
 
   useEffect(() => {
     dispatch(fetchProduct())
