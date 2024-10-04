@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { STATUSES } from 'store/authSlice';
 import { adminLogin } from 'store/authSlice'
+import { setStatus } from 'store/authSlice';
 
 const AdminLogin = () => {
 
@@ -32,6 +33,7 @@ const AdminLogin = () => {
         if(status == STATUSES.SUCCESS) {
             navigate("/admin/default");
             localStorage.setItem("token",token)
+            dispatch(setStatus(STATUSES.LOADING))
         }
     },[dispatch,status])
 
