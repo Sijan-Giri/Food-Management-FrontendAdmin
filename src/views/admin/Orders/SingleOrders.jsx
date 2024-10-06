@@ -5,6 +5,7 @@ import axios from 'axios';
 import { fetchSingleOrder } from 'store/orderSlice';
 import { updateOrderStatus } from 'store/orderSlice';
 import { updatePaymentStatus } from 'store/orderSlice';
+import { socket } from 'App';
 
 const SingleOrders = () => {
 
@@ -17,6 +18,7 @@ const SingleOrders = () => {
     const [paymentStatus , setPaymentStatus] = useState(filteredOrder[0]?.paymentDetails?.status)
 
     const handleOrderStatus = (e) => {
+      socket.emit("hello",{name : "Iam sijan"})
       setOrderStatus(e.target.value);
       dispatch(updateOrderStatus(id,e.target.value))
     }

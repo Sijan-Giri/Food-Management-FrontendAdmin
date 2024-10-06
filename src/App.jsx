@@ -6,6 +6,12 @@ import AdminLogin from "views/admin/login/AdminLogin";
 import { Provider } from "react-redux";
 import store from "store/store";
 import ProtectedRoute from "ProtectedRoute";
+import {io} from "socket.io-client";
+export const socket = io("http://localhost:2000",{
+  auth : {
+    token : localStorage.getItem("token")
+  }
+})
 const App = () => {
   return (
     <Provider store={store}>
