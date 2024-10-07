@@ -18,9 +18,11 @@ const SingleOrders = () => {
     const [paymentStatus , setPaymentStatus] = useState(filteredOrder[0]?.paymentDetails?.status)
 
     const handleOrderStatus = (e) => {
-      socket.emit("hello",{name : "Iam sijan"})
-      setOrderStatus(e.target.value);
-      dispatch(updateOrderStatus(id,e.target.value))
+      socket.emit("updateOrderStatus",{
+        status : e.target.value,
+        orderId : id,
+        userId : filteredOrder[0]?.user
+      })
     }
 
     const handlePaymentStatus = (e) => {
