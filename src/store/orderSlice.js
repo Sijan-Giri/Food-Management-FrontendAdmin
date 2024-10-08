@@ -47,7 +47,7 @@ export function fetchOrder() {
     return async function fetchOrderThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get("http://localhost:2000/getOrders",{
+            const response = await axios.get("https://food-management-system-backend.onrender.com/getOrders",{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
