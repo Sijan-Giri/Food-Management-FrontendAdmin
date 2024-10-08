@@ -102,7 +102,7 @@ export function createProduct(data) {
     return async function createProductThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING))
-            const response = await axios.post("http://localhost:2000/createProduct",data,{
+            const response = await axios.post("https://food-management-system-backend.onrender.com/createProduct",data,{
                 headers : {
                     Authorization : localStorage.getItem('token'),
                     "Content-Type" : "multipart/form-data"

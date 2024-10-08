@@ -39,7 +39,7 @@ export  function adminLogin(data) {
     return async function adminLoginThunk(dispatch) {
         dispatch(setStatus(STATUSES.LOADING))
         try {
-            const response = await axios.post("http://localhost:2000/login",data);
+            const response = await axios.post("https://food-management-system-backend.onrender.com/login",data);
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS))
                 dispatch(setData(response.data.data));
@@ -58,7 +58,7 @@ export function fetchProfile() {
     return async function fetchProfileThunk(dispatch) {
         dispatch(setStatus(STATUSES.LOADING));
         try {
-            const response = await axios.get("http://localhost:2000/getProfile",{
+            const response = await axios.get("https://food-management-system-backend.onrender.com/getProfile",{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }

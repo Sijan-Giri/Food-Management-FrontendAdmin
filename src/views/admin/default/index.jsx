@@ -20,7 +20,7 @@ const Dashboard = () => {
   useEffect(() => {
     (
       async() => {
-        const result = await api.getData("http://localhost:2000/getAllData");
+        const result = await api.getData("https://food-management-system-backend.onrender.com/getAllData");
           setDatas(result)
       }
     )()

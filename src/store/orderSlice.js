@@ -140,7 +140,7 @@ export function updatePaymentStatus(id,paymentStatus) {
     return async function updatePaymentStatusThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING))
-            const response = await axios.patch(`http://localhost:2000/updatePaymentStatus/${id}`,{paymentStatus},{
+            const response = await axios.patch(`https://food-management-system-backend.onrender.com/updatePaymentStatus/${id}`,{paymentStatus},{
                 headers : {
                  "Content-Type" : "application/json",
                 Accept : "application/json",

@@ -32,7 +32,7 @@ export function fetchUser() {
     return async function fetchUserThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get("http://localhost:2000/getUser",{
+            const response = await axios.get("https://food-management-system-backend.onrender.com/getUser",{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
@@ -54,7 +54,7 @@ export function deleteUser(id) {
     return async function deleteUserThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.delete(`http://localhost:2000/deleteUser/${id}`,{
+            const response = await axios.delete(`https://food-management-system-backend.onrender.com/deleteUser/${id}`,{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
