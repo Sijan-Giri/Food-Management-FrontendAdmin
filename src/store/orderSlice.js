@@ -69,7 +69,7 @@ export function fetchSingleOrder(id) {
     return async function fetchSingleOrderThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get(`http://localhost:2000/getSingleOrder/${id}`,{
+            const response = await axios.get(`https://food-management-system-backend.onrender.com/getSingleOrder/${id}`,{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
@@ -91,7 +91,7 @@ export function deleteOrder(id) {
     return async function deleteOrderThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING))
-            const response = await axios.delete(`http://localhost:2000/deleteOrder/${id}`,{
+            const response = await axios.delete(`https://food-management-system-backend.onrender.com/deleteOrder/${id}`,{
               headers : {
                 "Content-Type" : "application/json",
                 Accept : "application/json",
@@ -116,7 +116,7 @@ export function updateOrderStatus(id,orderStatus) {
     return async function updateOrderStatus(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.patch(`http://localhost:2000/updateOrderStatus/${id}`,{orderStatus},{
+            const response = await axios.patch(`https://food-management-system-backend.onrender.com/updateOrderStatus/${id}`,{orderStatus},{
                 headers : {
                     "Content-Type" : "application/json",
                 Accept : "application/json",

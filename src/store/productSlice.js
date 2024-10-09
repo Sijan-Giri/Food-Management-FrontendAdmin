@@ -40,7 +40,7 @@ export function fetchProduct() {
     return async function fetchProductThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get("http://localhost:2000/createProduct");
+            const response = await axios.get("https://food-management-system-backend.onrender.com/createProduct");
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
                 dispatch(setProduct(response.data.data.reverse()));
@@ -58,7 +58,7 @@ export function deleteProduct(id) {
     return async function deleteProductThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.delete(`http://localhost:2000/deleteProduct/${id}`,{
+            const response = await axios.delete(`https://food-management-system-backend.onrender.com/deleteProduct/${id}`,{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
@@ -80,7 +80,7 @@ export function updateProduct(id,status) {
     return async function updateProductThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.patch(`http://localhost:2000/updateProductStatus/${id}`,{productStatus : status},{
+            const response = await axios.patch(`https://food-management-system-backend.onrender.com/updateProductStatus/${id}`,{productStatus : status},{
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }
